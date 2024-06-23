@@ -33,8 +33,9 @@ export const Footer = () => {
       <div className="max-w-lg sm:mx-auto sm:text-center">
         <Image src={"/Images/Logo.png"} width={100} height={100} alt='Footer Logo' className='mx-auto rounded-full'/>
         <p className="leading-relaxed mt-2 text-[15px]">
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            Chef's Recipe is your ultimate destination to explore, create, and share culinary delights. Discover a rich collection of recipes curated by top chefs from around the globe. Whether you're a....
         </p>
+
       </div>
       <ul className="items-center justify-center mt-8 space-y-5 sm:flex sm:space-x-4 sm:space-y-0">
         {footerNavs.map((item, idx) => (

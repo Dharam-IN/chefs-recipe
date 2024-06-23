@@ -31,10 +31,10 @@ const Navbar = () => {
           </svg>
         </button>
         <div className="flex items-center lg:w-[70%] justify-between w-[25%] font-[600] space-x-4">
-          <Link href="/about" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">About</Link>
-          <Link href="/chefs" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">Chef's</Link>
-          <Link href="/diets" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">Diets</Link>
-          <Link href="/health-tips" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">Health Tips</Link>
+          <Link href="/about" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">About</Link>
+          <Link href="/chefs" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Chef's</Link>
+          <Link href="/diets" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Diets</Link>
+          <Link href="/health-tips" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Health Tips</Link>
           <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Share Recipe <PlusIcon /></Link>
           <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Login <LogInIcon /></Link>
           <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Signup <User /></Link>
