@@ -1,14 +1,12 @@
-// src/app/page.tsx
-import SimpleBottomNavigation from '@/components/Footer';
-import ResponsiveAppBar from '@/components/Navbar';
-import ThemeSwitch from '@/components/ThemeSwitch';
+import { Footer } from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <>
-      <ResponsiveAppBar />
-      <ThemeSwitch />
-      <SimpleBottomNavigation/>
+      <Navbar/>
+      <Footer/>
     </>
   );
 }

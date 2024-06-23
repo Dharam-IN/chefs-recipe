@@ -1,223 +1,127 @@
-'use client';
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { useTheme } from 'next-themes';
-import { createTheme, ThemeProvider as MUIThemeProvider, Theme } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import { InputBase } from '@mui/material';
-import { styled, alpha } from '@mui/material/styles';
+'use client'
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { ThemeButton } from './ThemeButton'
+import { FaSearch } from 'react-icons/fa'
+import { AiOutlineClose } from 'react-icons/ai'
+import Image from 'next/image'
+import { LogInIcon, PlusIcon, User } from 'lucide-react'
 
+const Navbar = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchVisible, setSearchVisible] = useState(false)
 
+  const openSearch = () => {
+    setSearchOpen(true)
+    setTimeout(() => setSearchVisible(true), 10) // Trigger transition
+  }
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-
-
-const ResponsiveAppBar = () => {
-  const { theme } = useTheme();
-  const [muiTheme, setMuiTheme] = useState<Theme>(
-    createTheme({
-      palette: {
-        mode: 'light',
-        primary: {
-          main: '#3f51b5',
-        },
-      },
-    })
-  );
-
-
-  useEffect(() => {
-    setMuiTheme(
-      createTheme({
-        palette: {
-          mode: theme === 'light' ? 'light' : 'dark',
-          primary: {
-            main: theme === 'light' ? '#3f51b5' : '#121212',
-          },
-        },
-      })
-    );
-  }, [theme]);
-
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
+  const closeSearch = () => {
+    setSearchVisible(false)
+    setTimeout(() => setSearchOpen(false), 300) // Wait for transition to end
+  }
 
   return (
-    <MUIThemeProvider theme={muiTheme}>
-      <AppBar position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
-
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: 'block', md: 'none' },
-                }}
-              >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href=""
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
-            </Box>
-
-            <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
+    <nav className="bg-primary lg:pb-28 lg:pt-7 py-8 dark:bg-gray-800 relative">
+      <div className="container mx-auto flex justify-between items-center relative">
+        <button onClick={() => setSidebarOpen(true)} className="text-black lg:hidden focus:outline-none dark:text-white">
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <div className="flex items-center lg:w-[70%] justify-between w-[25%] font-[600] space-x-4">
+          <Link href="/about" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">About</Link>
+          <Link href="/chefs" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">Chef's</Link>
+          <Link href="/diets" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">Diets</Link>
+          <Link href="/health-tips" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap">Health Tips</Link>
+          <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Share Recipe <PlusIcon /></Link>
+          <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Login <LogInIcon /></Link>
+          <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Signup <User /></Link>
+        </div>
+        <div className='flex justify-center w-[50%] lg:hidden'>
+        <div className="text-black text-lg font-semibold dark:text-white sm:-top-[50px] -top-[20px] sm:w-[200px] w-[120px] relative">
+          <Link href={"/"} className="bg-primary dark:bg-gray-800 absolute -top-[0px] left-0 sm:w-[200px] w-[120px] sm:h-[200px] h-[120px] p-5 rounded-full">
+            <Image
+              src="/Images/Logo.png"
+              alt="Logo"
+              layout="fill"
+              objectFit="contain"
+              className="!w-[80%] rounded-full !h-[80%] !top-1/2 !left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
-          </Search>
-          </Toolbar>
-        </Container>
-      </AppBar>
-    </MUIThemeProvider>
-  );
-};
+          </Link>
+        </div>
+      </div>
+        <div className="flex items-center justify-end space-x-2 lg:w-[30%] w-[25%]">
+          <div className="relative lg:block hidden">
+            <input type="text" placeholder="Search" className="p-2 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white" />
+            <button className="absolute top-1/2 right-4 -translate-y-1/2 text-black dark:text-white">
+              <FaSearch />
+            </button>
+          </div>
+          <ThemeButton />
+          <button onClick={openSearch} className="text-black lg:hidden focus:outline-none dark:text-white">
+            <FaSearch className="w-6 h-6" />
+          </button>
+        </div>
+      </div>
+      <div className="hidden lg:block">
+        <div className='flex justify-center w-full'>
+          <div className="text-black text-lg font-semibold dark:text-white sm:w-[200px] w-[120px] relative">
+            <Link href={"/"} className="bg-primary dark:bg-gray-800 absolute -top-[0px] left-0 sm:w-[200px] w-[120px] sm:h-[200px] h-[120px] p-5 rounded-full">
+              <Image
+                src="/Images/Logo.png"
+                alt="Logo"
+                layout="fill"
+                objectFit="contain"
+                className="!w-[80%] rounded-full !h-[80%] !top-1/2 !left-1/2 -translate-x-1/2 -translate-y-1/2"
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
 
-export default ResponsiveAppBar;
+      {searchOpen && (
+        <div className={`fixed inset-0 bg-black bg-opacity-50 z-40 flex justify-center items-center search-overlay ${searchVisible ? '' : 'search-overlay-hidden'}`}>
+          <div className={`relative w-full px-4 ${searchVisible ? 'slide-down' : 'slide-up'}`}>
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full p-4 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white"
+            />
+            <button onClick={closeSearch} className="absolute top-1/2 right-7 -translate-y-1/2 text-black dark:text-white">
+              <AiOutlineClose className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setSidebarOpen(false)}></div>
+      )}
+
+      <div
+        className={`fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50`}
+      >
+        <div className="p-4">
+          <button onClick={() => setSidebarOpen(false)} className="text-black dark:text-white">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div className="flex flex-col space-y-2 p-4">
+          <Link href="/about" className="text-black dark:text-gray-200">About</Link>
+          <Link href="/chefs" className="text-black dark:text-gray-200">Chef's</Link>
+          <Link href="/diets" className="text-black dark:text-gray-200">Diets</Link>
+          <Link href="/health-tips" className="text-black dark:text-gray-200">Health Tips</Link>
+          <Link href="/share-recipe" className="text-white flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Share Recipe <PlusIcon /></Link>
+          <Link href="/share-recipe" className="text-white flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Login <LogInIcon /></Link>
+          <Link href="/share-recipe" className="text-white flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Signup <User /></Link>
+        </div>
+      </div>
+    </nav>
+  )
+}
+
+export default Navbar
