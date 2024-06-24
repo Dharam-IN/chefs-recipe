@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { ApiError } from './ApiErrors'
+import { ApiError } from './ApiError'
 import { createErrorResponse } from './ApiResponse'
 
 type HandlerFunction = (
