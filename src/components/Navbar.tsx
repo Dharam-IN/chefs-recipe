@@ -5,8 +5,10 @@ import { ThemeButton } from './ThemeButton'
 import { FaSearch } from 'react-icons/fa'
 import { AiOutlineClose } from 'react-icons/ai'
 import Image from 'next/image'
-import { LogInIcon, PlusIcon, User } from 'lucide-react'
-import { useSession } from 'next-auth/react'
+import { LogInIcon, LogOutIcon, PlusIcon, User } from 'lucide-react'
+import { signOut, useSession } from 'next-auth/react'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from './ui/button'
 
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -40,8 +42,28 @@ const Navbar = () => {
           <Link href="/diets" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Diets</Link>
           <Link href="/health-tips" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Health Tips</Link>
           <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Share Recipe <PlusIcon /></Link>
-          <Link href="/signin" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Login <LogInIcon /></Link>
-          <Link href="/signup" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Signup <User /></Link>
+          {/* <Link href="/signin" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Login <LogInIcon /></Link>
+          <Link href="/signup" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Signup <User /></Link> */}
+          {session ? (
+            <div className="flex items-center space-x-4">
+              <Avatar className="bg-gray-500 !dark:bg-primary text-primary">
+                <AvatarImage src={session.user.image} alt="Avatar" />
+                <AvatarFallback>{session.user.name ? (session.user.name[0].toUpperCase()) : (session.user.username[0].toUpperCase())}</AvatarFallback>
+              </Avatar>
+              <Button className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap" onClick={() => signOut()}>
+                Logout <LogOutIcon/>
+              </Button>
+            </div>
+          ) : (
+            <>
+              <Link href="/signin" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">
+                Sign In <LogInIcon />
+              </Link>
+              <Link href="/signup" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">
+                Sign Up <User />
+              </Link>
+            </>
+          )}
         </div>
         <div className='flex justify-center w-[50%] lg:hidden'>
         <div className="text-black text-lg font-semibold dark:text-white sm:-top-[50px] -top-[20px] sm:w-[200px] w-[120px] relative">

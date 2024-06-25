@@ -17,7 +17,7 @@ import axios, { AxiosError } from 'axios'
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { signIn } from 'next-auth/react'
-import { Loader2 } from "lucide-react"
+import { InfoIcon, Loader2 } from "lucide-react"
 import { FaGoogle } from "react-icons/fa"
 
 const SignIn = () => {
@@ -95,8 +95,9 @@ const SignIn = () => {
                         <Button type="submit">Sign In</Button>
                     </form>
                 </Form>
+                <p className="flex gap-3"><InfoIcon className="w-[20px]"/>Only users can Sign    in with Google, not chefs.</p>
                 <button
-                    className={`flex items-center justify-center py-2 px-20 bg-white text-gray-700 dark:bg-gray-700 dark:text-white hover:bg-gray-200 focus:ring-blue-500 focus:ring-offset-blue-200 w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg`}
+                    className={`flex items-center justify-center py-2 px-20 bg-white text-gray-700 dark:bg-gray-700 dark:text-white hover:bg-gray-200 focus:ring-blue-500 focus:ring-offset-blue-200 w-full transition ease-in duration-200 text-center text-base font-semibold shadow-lg border border-primary focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg`}
                     onClick={() => signIn('google')}
                 >
                     <FaGoogle />
