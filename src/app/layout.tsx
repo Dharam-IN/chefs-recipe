@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
+import AuthProvider from "@/context/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <AuthProvider>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Navbar/>
@@ -28,6 +30,7 @@ export default function RootLayout({
           <Toaster/>
         </ThemeProvider>
       </body>
+      </AuthProvider>
     </html>
   );
 }

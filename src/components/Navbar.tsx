@@ -6,11 +6,15 @@ import { FaSearch } from 'react-icons/fa'
 import { AiOutlineClose } from 'react-icons/ai'
 import Image from 'next/image'
 import { LogInIcon, PlusIcon, User } from 'lucide-react'
+import { useSession } from 'next-auth/react'
 
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchVisible, setSearchVisible] = useState(false)
+
+  const {data: session} = useSession()
+  console.log(session)
 
   const openSearch = () => {
     setSearchOpen(true)

@@ -6,7 +6,6 @@ import UserModel from "./model/user.model"
 import { createErrorResponse } from "./app/utils/ApiResponse"
 import bcrypt from 'bcryptjs'
 import mongoose from "mongoose"
-import { NextResponse } from "next/server"
  
 export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -15,8 +14,8 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.AUTH_WEBAPP_GOOGLE_CLIENT_SECRET as string,
     }),
     CredentialsProvider({
-      // id: "credentials",
-      // name: "Credentials",
+      id: "credentials",
+      name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" }
@@ -29,13 +28,11 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
           const user = await UserModel.findOne({email: credentials.identifier});
 
           if(!user){
-            // return new NextResponse(createErrorResponse("User not found with this email", 400))
-            throw new Error("No User Found With This Email");
+            return createErrorResponse("User not found with this email", 400);
           }
 
           if(!user.isVerified){
-            // return createErrorResponse("User not found with this email", 401);
-            throw new Error("Please Verify Before Login!");
+            return createErrorResponse("User not found with this email", 401);
           }
 
           // Compare Password
@@ -45,8 +42,7 @@ export const { handlers: {GET, POST}, signIn, signOut, auth } = NextAuth({
           if(comparePassword){
             return user
           }else{
-            // return createErrorResponse("Password Incorrect", 400)
-            throw new Error("Password Incorrect!");
+            return createErrorResponse("Password Incorrect", 400)
           }
 
         } catch (error) {
