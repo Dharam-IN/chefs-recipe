@@ -29,7 +29,7 @@ export const Footer = () => {
   ]
 
   return (
-    <footer className="text-gray-500 bg-white px-4 py-5 mx-auto md:px-8 dark:bg-gray-800 dark:text-gray-200 mt-[452px]">
+    <footer className="text-white bg-primary px-4 py-5 mx-auto md:px-8 dark:bg-gray-800 dark:text-gray-200">
       <div className="max-w-lg sm:mx-auto sm:text-center">
         <Image src={"/Images/Logo.png"} width={100} height={100} alt='Footer Logo' className='mx-auto rounded-full'/>
         <p className="leading-relaxed mt-2 text-[15px]">
@@ -39,13 +39,13 @@ export const Footer = () => {
       </div>
       <ul className="items-center justify-center mt-8 space-y-5 sm:flex sm:space-x-4 sm:space-y-0">
         {footerNavs.map((item, idx) => (
-          <li key={idx} className="hover:text-gray-800 dark:hover:text-white">
+          <li key={idx} className="hover:underline dark:hover:text-white">
             <Link href={item.href}>{item.name}</Link>
           </li>
         ))}
       </ul>
       <div className="mt-8 items-center justify-between sm:flex">
-        <div className="mt-4 sm:mt-0">&copy; {new Date().getFullYear()} <Link className='underline text-primary' href={"https://github.com/Dharam-IN"}>Dharam-IN</Link> All rights reserved.</div>
+        <div className="mt-4 sm:mt-0">&copy; {new Date().getFullYear()} <Link className='underline text-white dark:text-primary' href={"https://github.com/Dharam-IN"}>Dharam-IN</Link> All rights reserved.</div>
         <div className="mt-6 sm:mt-0">
           <ul className="flex items-center space-x-4">
             <li className="w-10 h-10 border rounded-full flex items-center justify-center">

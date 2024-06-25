@@ -6,6 +6,7 @@ export interface User extends Document {
   password: string;
   restaurant: string;
   gender: string;
+  usertype: string;
   verifyCode: string;
   verifyCodeExpiry: Date;
   isVerified: boolean;
@@ -40,6 +41,10 @@ const UserSchema: Schema<User> = new Schema(
       type: String,
       required: [true, "Please Choose Your Gender"],
     },
+    usertype: {
+      type: String,
+      required: [true, "Please Choose Your Type"]
+    },
     verifyCode: {
       type: String,
     },
@@ -62,6 +67,6 @@ try {
   UserModel = mongoose.model<User>("User");
 } catch {
   UserModel = mongoose.model<User>("User", UserSchema);
-}
+} 
 
 export default UserModel;

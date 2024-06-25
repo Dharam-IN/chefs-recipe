@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   await dbConnect();
 
   try {
-    const { username, email, password, restaurant, gender } = await request.json();
+    const { username, email, password, restaurant, gender, usertype } = await request.json();
 
     const existingUserByUsernameVerified = await UserModel.findOne({ username, isVerified: true });
 
@@ -42,6 +42,7 @@ export async function POST(request: Request) {
         email,
         password: hashedPassword,
         restaurant,
+        usertype,
         gender,
         verifyCode,
         verifyCodeExpiry: expiryDate,
