@@ -59,10 +59,15 @@ export const authOptions: NextAuthOptions = {
             try {
                 // check user already exists or not
                 let existingUser = await UserModel.findOne({email: user.email});
-
                 if(!existingUser){
+                    const emailUsername = user.email ? user.email.split('@')[0] : '';
+                    
+                    // Sanitize username
+                    const sanitizedUsername = emailUsername.replace(/[^a-zA-Z0-9]/g, '').substring(0, 20);
+                    const finalUsername = sanitizedUsername.length >= 3 ? sanitizedUsername : 'user' + Math.random().toString(36).substring(2, 8);
+
                     existingUser = new UserModel({
-                        username: profile?.name || user.name,
+                        username: finalUsername,
                         email: user.email,
                         isVerified: true
                     })

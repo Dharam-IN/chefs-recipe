@@ -94,6 +94,8 @@ export default function Signup() {
                 description: response.data.message,
             })
 
+            router.replace(`/verify/${username}`)
+
         } catch (error) {
             console.log(error);
             const axiosError = error as AxiosError<ApiResponse>;
