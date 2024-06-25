@@ -1,15 +1,20 @@
+// signup/route.ts
 import { NextResponse } from 'next/server';
 import UserModel from '@/model/user.model';
 import dbConnect from '@/lib/dbConnect';
 import bcryptjs from 'bcryptjs';
-import { createErrorResponse, createSuccessResponse } from '@/app/utils/ApiResponse';
 import sendEmail from '@/helper/sendVerificationEmail';
+import { createErrorResponse, createSuccessResponse } from '@/app/utils/ApiResponse';
 
 export async function POST(request: Request) {
   await dbConnect();
 
   try {
     const { username, email, password, restaurant, gender, usertype } = await request.json();
+
+    if (!usertype) {
+      return NextResponse.json(createErrorResponse("Usertype is required", 400), { status: 400 });
+    }
 
     const existingUserByUsernameVerified = await UserModel.findOne({ username, isVerified: true });
 
@@ -26,41 +31,46 @@ export async function POST(request: Request) {
         return NextResponse.json(createErrorResponse("This Email Already Exists", 400), { status: 400 });
       }
 
-      const hashedPassword = await bcryptjs.hash(password, 10);
-      existingUserByEmail.password = hashedPassword;
+      existingUserByEmail.username = username;
+      existingUserByEmail.password = await bcryptjs.hash(password, 10);
+      existingUserByEmail.restaurant = restaurant;
+      existingUserByEmail.gender = gender;
+      existingUserByEmail.usertype = usertype;
       existingUserByEmail.verifyCode = verifyCode;
-      existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 3600000);
+      existingUserByEmail.verifyCodeExpiry = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
 
       await existingUserByEmail.save();
-    } else {
-      const hashedPassword = await bcryptjs.hash(password, 10);
-      const expiryDate = new Date();
-      expiryDate.setHours(expiryDate.getHours() + 1);
 
-      const newUser = new UserModel({
-        username,
-        email,
-        password: hashedPassword,
-        restaurant,
-        usertype,
-        gender,
-        verifyCode,
-        verifyCodeExpiry: expiryDate,
-        isVerified: false,
-      });
+      const emailrespo = await sendEmail(email, username, verifyCode);
+      console.log("emailrespo:- ", emailrespo)
+      if(!emailrespo.success){
+        return NextResponse.json(createErrorResponse("Error in Email send", 500), { status: 500 });
+      }
 
-      await newUser.save();
+      return NextResponse.json(createSuccessResponse(null, "Verification Code Sent to Your Email", 200), { status: 200 });
     }
 
-    const emailResponse = await sendEmail(email, username, verifyCode);
+    const hashedPassword = await bcryptjs.hash(password, 10);
 
-    if (!emailResponse.success) {
-      return NextResponse.json(createErrorResponse(emailResponse.message, 500), { status: 500 });
-    }
+    const user = new UserModel({
+      username,
+      email,
+      password: hashedPassword,
+      restaurant,
+      gender,
+      usertype,
+      verifyCode,
+      verifyCodeExpiry: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
+    });
 
-    return NextResponse.json(createSuccessResponse(null, "User Registered Successfully!", 200), { status: 200 });
-  } catch (error) {
-    console.error("Error Signing up User:", error);
-    return NextResponse.json(createErrorResponse("Error Signing up user.", 500), { status: 500 });
+    await user.save();
+
+    await sendEmail(email, username, verifyCode);
+
+    return NextResponse.json(createSuccessResponse(null,"Verification Code Sent to Your Email", 200), { status: 200 });
+
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json(createErrorResponse("An Error Occurred", 500), { status: 500 });
   }
 }

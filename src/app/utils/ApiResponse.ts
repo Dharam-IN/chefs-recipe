@@ -19,7 +19,7 @@ interface ApiResponse<T> {
     return {
       success: false,
       statusCode: statusCode,
-      error
+      message: error
     }
   }
   

@@ -13,5 +13,5 @@ export const SignupSchema = z.object({
     password: z.string().min(6, "Password Must be Atleast 6 Characters"),
     restaurant: z.string(),
     gender: z.string(),
-    usertype: z.string().min(3, "Please select User Type")
+    usertype: z.string().min(3, "Please select User Type minim")
 })

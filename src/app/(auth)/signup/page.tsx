@@ -24,10 +24,18 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { SignupSchema } from "@/schema/SignupSchema"
+import { useState } from "react"
+import axios, { AxiosError } from 'axios'
+import { ApiResponse } from "@/types/ApiResponse"
+import { useToast } from "@/components/ui/use-toast"
+import { Loader2 } from "lucide-react"
 
 
 
 export default function Signup() {
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { toast } = useToast()
 
     const formSchema = z.object({
         username: z.string().min(2, {
@@ -50,6 +58,25 @@ export default function Signup() {
     const userType = form.watch("usertype");
     const onSubmit = async (data: z.infer<typeof SignupSchema>) => {
         console.log(data)
+        setIsSubmitting(true);
+        try {
+            const response = await axios.post<ApiResponse>('/api/signup', data);
+            console.log(response)
+            toast({
+                description: response.data.message,
+            })
+
+        } catch (error) {
+            console.log(error);
+            const axiosError = error as AxiosError<ApiResponse>;
+            let errorMessage = axiosError.response?.data.message;
+            toast({
+                title: errorMessage,
+                variant: "destructive"
+            })
+        }finally{
+            setIsSubmitting(false)
+        }
     }
 
     return (
@@ -179,7 +206,7 @@ export default function Signup() {
                                 </FormItem>
                             )}
                         /> */}
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">{isSubmitting ? (<>Wait.. <Loader2 className="mr-2 h-4 w-4 animate-spin"/></>) : (<>Submit</>)}</Button>
                     </form>
                 </Form>
             </div>
