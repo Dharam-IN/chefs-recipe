@@ -24,24 +24,24 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { SignupSchema } from "@/schema/SignupSchema"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios, { AxiosError } from 'axios'
 import { ApiResponse } from "@/types/ApiResponse"
 import { useToast } from "@/components/ui/use-toast"
 import { Loader2 } from "lucide-react"
+import {useDebounceCallback} from 'usehooks-ts'
+import { useRouter } from "next/navigation"
 
 
 
 export default function Signup() {
 
+    const [username, setUsername] = useState('');
+    const [usernameMessage, setUsernameMessage] = useState('');
+    const [isCheckingUsername, setIsCheckingUsername] = useState(false);    
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { toast } = useToast()
-
-    const formSchema = z.object({
-        username: z.string().min(2, {
-            message: "Username must be at least 2 characters.",
-        }),
-    })
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof SignupSchema>>({
         resolver: zodResolver(SignupSchema),
@@ -56,6 +56,34 @@ export default function Signup() {
     })
 
     const userType = form.watch("usertype");
+
+
+    // Debounce username input to avoid rapid API calls
+    const decounced = useDebounceCallback(setUsername, 300)
+
+    useEffect(() => {
+        const checkUsernameUnique = async() => {
+            if(username){
+                setIsCheckingUsername(true);
+                setUsernameMessage('');
+                try {
+                    const response = await axios.get(`/api/check-username-unique?username=${username}`)
+                    setUsernameMessage(response.data.message);
+                    console.log(response)
+                } catch (error) {
+                    console.log(error)
+                    const axiosError = error as AxiosError<ApiResponse>;
+                    setUsernameMessage(axiosError.response?.data.message ?? "Error Checking Username");
+                }finally{
+                    setIsCheckingUsername(false)
+                }
+            }
+        }
+
+        checkUsernameUnique();
+    },[username])
+
+
     const onSubmit = async (data: z.infer<typeof SignupSchema>) => {
         console.log(data)
         setIsSubmitting(true);
@@ -121,8 +149,18 @@ export default function Signup() {
                                 <FormItem>
                                     <FormLabel>Username</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Username" {...field} />
+                                        <Input 
+                                        placeholder="Username" 
+                                        onChange={(e) => {
+                                            field.onChange(e);
+                                            decounced(e.target.value)
+                                        }}
+                                        />
                                     </FormControl>
+                                    {isCheckingUsername && <Loader2 className="animate-spin" />}
+                                    <p className={`text-sm ${usernameMessage === "Username is unique" ? 'text-green-500' : 'text-red-500'}`}>
+                                        {usernameMessage}
+                                    </p>
                                     <FormMessage />
                                 </FormItem>
                             )}
