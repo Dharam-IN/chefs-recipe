@@ -6,21 +6,19 @@ import { NextResponse } from "next/server";
 import { createErrorResponse, createSuccessResponse } from "@/app/utils/ApiResponse";
 
 const UsernameQuerySchema = z.object({
-    username: UsernameValidation
+    username: UsernameValidation.transform((val) => val.toLowerCase())
 });
 
 export async function GET(request: Request) {
     await dbConnect();
 
     try {
-        console.log(new URL(request.url))
         const { searchParams } = new URL(request.url);
         const queryParams = {
-            username: searchParams.get('username') || ''
+            username: (searchParams.get('username') || '').toLowerCase()
         };
 
         const result = UsernameQuerySchema.safeParse(queryParams);
-        console.log("Result Console:- ", result);
 
         if (!result.success) {
             const usernameErrors = result.error.format().username?._errors || [];
@@ -42,7 +40,7 @@ export async function GET(request: Request) {
         }
 
         return NextResponse.json(
-            createSuccessResponse(null ,'Username is unique', 200),
+            createSuccessResponse(null, 'Username is unique', 200),
             { status: 200 }
         );
     } catch (error) {

@@ -6,7 +6,6 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import mongoose from "mongoose";
 
-
 export const authOptions: NextAuthOptions = {
     providers: [
         GoogleProvider({
@@ -17,16 +16,15 @@ export const authOptions: NextAuthOptions = {
             id: "credentials",
             name: "Credentials",
             credentials: {
-                email: {label: "Email", type: "email"},
-                password: {label: "Password", type: "password"}
+                email: { label: "Email", type: "email" },
+                password: { label: "Password", type: "password" }
             },
-            async authorize(credentials: any): Promise<any>{
+            async authorize(credentials: any): Promise<any> {
                 await dbConnect();
-                console.log(credentials);
                 try {
-                    const user = await UserModel.findOne({email: credentials.identifier});
+                    const user = await UserModel.findOne({ email: credentials.identifier });
 
-                    if(!user){
+                    if (!user) {
                         throw new Error("No User Found With This Email");
                     }
 
@@ -34,7 +32,6 @@ export const authOptions: NextAuthOptions = {
                         throw new Error("Please Verify Before Login!");
                     }
 
-                    // Compare Password
                     const comparePassword = await bcrypt.compare(credentials.password, user.password);
 
                     if (comparePassword) {
@@ -50,27 +47,21 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     callbacks: {
-        async signIn({user, account, profile}){
+        async signIn({ user, account, profile }) {
             await dbConnect();
-            console.log("Google User", user);
-            console.log("Google Account", account);
-            console.log("Google Profile", profile);
 
             try {
-                // check user already exists or not
-                let existingUser = await UserModel.findOne({email: user.email});
-                if(!existingUser){
+                let existingUser = await UserModel.findOne({ email: user.email });
+                if (!existingUser) {
                     const emailUsername = user.email ? user.email.split('@')[0] : '';
-                    
-                    // Sanitize username
-                    const sanitizedUsername = emailUsername.replace(/[^a-zA-Z0-9]/g, '').substring(0, 20);
+                    const sanitizedUsername = emailUsername.replace(/[^a-zA-Z0-9]/g, '').substring(0, 20).toLowerCase();
                     const finalUsername = sanitizedUsername.length >= 3 ? sanitizedUsername : 'user' + Math.random().toString(36).substring(2, 8);
 
                     existingUser = new UserModel({
                         username: finalUsername,
                         email: user.email,
                         isVerified: true
-                    })
+                    });
 
                     await existingUser.save();
                 }
@@ -86,7 +77,7 @@ export const authOptions: NextAuthOptions = {
                 return false;
             }
         },
-        async jwt({token, user}){
+        async jwt({ token, user }) {
             if (user) {
                 token._id = (user._id as unknown as string) || "";
                 token.isVerified = user.isVerified;
