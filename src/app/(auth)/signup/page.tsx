@@ -246,7 +246,7 @@ export default function Signup() {
                                 </FormItem>
                             )}
                         /> */}
-                        <Button type="submit">{isSubmitting ? (<>Wait.. <Loader2 className="mr-2 h-4 w-4 animate-spin"/></>) : (<>Submit</>)}</Button>
+                        <Button className="w-full font-bold" type="submit">{isSubmitting ? (<>Wait.. <Loader2 className="mr-2 h-4 w-4 animate-spin"/></>) : (<>Submit</>)}</Button>
                     </form>
                 </Form>
             </div>

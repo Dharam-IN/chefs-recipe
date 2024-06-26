@@ -92,7 +92,7 @@ const SignIn = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit">Sign In</Button>
+                        <Button type="submit" className="w-full font-bold">Sign In</Button>
                     </form>
                 </Form>
                 <p className="flex gap-3"><InfoIcon className="w-[20px]"/>Only users can Sign    in with Google, not chefs.</p>

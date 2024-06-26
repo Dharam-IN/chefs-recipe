@@ -81,7 +81,7 @@ const VerifyAccount = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting} className="bg-gray-900 dark:text-white text-white w-full">
+            <Button type="submit" disabled={isSubmitting} className="bg-gray-900 dark:text-white text-white w-full font-bold">
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please Wait
