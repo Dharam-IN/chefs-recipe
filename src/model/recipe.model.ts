@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface Recipe extends Document {
+    userId: mongoose.Types.ObjectId;
     title: string;
     description: string;
     author: string;
@@ -8,7 +9,6 @@ export interface Recipe extends Document {
     image: string;
     ingredients: Ingredients[];
     instructions: string[];
-    createdAt: Date;
 }
 
 export interface Ingredients extends Document {
@@ -28,6 +28,11 @@ const IngredientsSchema: Schema<Ingredients> = new Schema({
 });
 
 const RecipeSchema: Schema<Recipe> = new Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: [true, "User ID is Required"]
+    },
     title: {
         type: String,
         required: true,
@@ -53,12 +58,7 @@ const RecipeSchema: Schema<Recipe> = new Schema({
     instructions: [{
         type: String,
         required: true
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now,
-        required: true
-    }
+    }]
 }, {timestamps: true});
 
 const RecipeModel = mongoose.models.Recipe as mongoose.Model<Recipe> || mongoose.model<Recipe>("Recipe", RecipeSchema);

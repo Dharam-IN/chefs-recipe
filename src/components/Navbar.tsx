@@ -70,6 +70,7 @@ const Navbar = () => {
           <Link href={"/"} className="bg-primary dark:bg-gray-800 absolute -top-[0px] left-0 sm:w-[200px] w-[120px] sm:h-[200px] h-[120px] p-5 rounded-full">
             <Image
               src="/Images/Logo.png"
+              // src="https://i.postimg.cc/SjsgbyF9/Logo.png"
               alt="Logo"
               layout="fill"
               objectFit="contain"
