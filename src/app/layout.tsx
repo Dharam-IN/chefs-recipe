@@ -7,7 +7,7 @@ import { Footer } from '@/components/Footer';
 import { Toaster } from '@/components/ui/toaster';
 import AuthProvider from '@/context/AuthProvider';
 import { Provider } from 'react-redux';
-import { store } from '@/store';
+import StoreProvider from './StoreProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+          <StoreProvider>
           <AuthProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
               <Navbar />
@@ -32,6 +33,7 @@ export default function RootLayout({
               <Toaster />
             </ThemeProvider>
           </AuthProvider>
+          </StoreProvider>
       </body>
     </html>
   );
