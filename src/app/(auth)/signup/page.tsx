@@ -233,7 +233,7 @@ export default function Signup() {
                                 )}
                             />
                         )}
-                        {/* <FormField
+                        <FormField
                             control={form.control}
                             name="restaurant"
                             render={({ field }) => (
@@ -245,7 +245,7 @@ export default function Signup() {
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        /> */}
+                        />
                         <Button className="w-full font-bold" type="submit">{isSubmitting ? (<>Wait.. <Loader2 className="mr-2 h-4 w-4 animate-spin"/></>) : (<>Submit</>)}</Button>
                     </form>
                 </Form>

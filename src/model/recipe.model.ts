@@ -9,6 +9,7 @@ export interface Recipe extends Document {
     image: string;
     ingredients: Ingredients[];
     instructions: string[];
+    type: string;
 }
 
 export interface Ingredients extends Document {
@@ -58,7 +59,11 @@ const RecipeSchema: Schema<Recipe> = new Schema({
     instructions: [{
         type: String,
         required: true
-    }]
+    }],
+    type: {
+        type: String,
+        required: true
+    }
 }, {timestamps: true});
 
 const RecipeModel = mongoose.models.Recipe as mongoose.Model<Recipe> || mongoose.model<Recipe>("Recipe", RecipeSchema);

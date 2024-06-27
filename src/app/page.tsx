@@ -1,11 +1,16 @@
+'use client'; // Add this directive
+
 import { Footer } from "@/components/Footer";
+import HeroSection from "@/components/Home/Hero";
 import Navbar from "@/components/Navbar";
-import Image from "next/image";
+import Recipes from "@/components/common/Recipes";
 
 export default function Home() {
   return (
     <>
-      Home page
+      {/* Hero Section */}
+      <HeroSection/>
+      <Recipes/>
     </>
   );
 }

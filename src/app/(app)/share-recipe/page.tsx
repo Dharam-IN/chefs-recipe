@@ -40,6 +40,7 @@ const ShareRecipe = () => {
             image: "",
             ingredients: [{ name: "", quantity: "" }],
             instructions: [""],
+            type: ""
         },
     });
 
@@ -98,6 +99,30 @@ const ShareRecipe = () => {
                                     <FormLabel>Description (Please provide a brief, one-line description)</FormLabel>
                                     <FormControl>
                                         <Textarea placeholder="Description" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Recipe Type</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Please Select User Type" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    <SelectLabel>Select</SelectLabel>
+                                                    <SelectItem value="vegetarian">Vegetarian</SelectItem>
+                                                    <SelectItem value="non-vegetarian">Non-Vegetarian</SelectItem>
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

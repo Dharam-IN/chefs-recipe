@@ -23,7 +23,7 @@ export async function POST(request: Request){
         const data = await request.json();
         console.log("Recipe Data:- ", data);
 
-        const {title, description, author, tags, image, ingredients, instructions} = data;
+        const {title, description, author, tags, image, ingredients, instructions, type} = data;
 
         const newRecipe = new RecipeModel({
             userId: ObjectId,
@@ -33,7 +33,8 @@ export async function POST(request: Request){
             tags,
             image,
             ingredients,
-            instructions
+            instructions,
+            type
         })
 
         await newRecipe.save()

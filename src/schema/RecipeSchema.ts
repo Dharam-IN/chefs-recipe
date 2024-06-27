@@ -10,5 +10,6 @@ export const RecipeSchema = z.object({
         name: z.string(),
         quantity: z.string()
     })),
-    instructions: z.array(z.string())
+    instructions: z.array(z.string()),
+    type: z.string()
 })
