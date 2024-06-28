@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { FiArrowRight, FiPlay } from 'react-icons/fi';
 
-const HomePage = () => {
+const HeroSection = () => {
   return (
     <section className="bg-gray-200 dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center md:py-28 lg:px-12 pt-20">
@@ -46,4 +46,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default HeroSection;
