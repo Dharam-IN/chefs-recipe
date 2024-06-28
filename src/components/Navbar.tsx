@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { ThemeButton } from './ThemeButton'
 import { FaSearch } from 'react-icons/fa'
@@ -9,24 +9,46 @@ import { LogInIcon, LogOutIcon, PlusIcon, User } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from './ui/button'
+import SearchArea from './common/SearchArea'
 
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchVisible, setSearchVisible] = useState(false)
+  const [searchQuery, setSearchQuery] = useState<string>('')
 
-  const {data: session} = useSession()
+  const { data: session } = useSession()
   console.log(session)
 
   const openSearch = () => {
     setSearchOpen(true)
-    setTimeout(() => setSearchVisible(true), 10) // Trigger transition
+    setTimeout(() => setSearchVisible(true), 10)
   }
 
   const closeSearch = () => {
     setSearchVisible(false)
-    setTimeout(() => setSearchOpen(false), 300) // Wait for transition to end
+    setTimeout(() => setSearchOpen(false), 300)
   }
+
+  const [searchAreaShow, setSearchAreaShow] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setSearchAreaShow(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className="bg-primary lg:pb-28 lg:pt-7 py-8 dark:bg-gray-800 relative">
@@ -42,8 +64,6 @@ const Navbar = () => {
           <Link href="/diets" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Diets</Link>
           <Link href="/health-tips" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Health Tips</Link>
           <Link href="/share-recipe" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Share Recipe <PlusIcon /></Link>
-          {/* <Link href="/signin" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Login <LogInIcon /></Link>
-          <Link href="/signup" className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap">Signup <User /></Link> */}
           {session ? (
             <div className="flex items-center space-x-4">
               <Avatar className="bg-gray-500 !dark:bg-primary text-primary">
@@ -51,7 +71,7 @@ const Navbar = () => {
                 <AvatarFallback>{session.user.name ? (session.user.name[0].toUpperCase()) : (session.user.username[0].toUpperCase())}</AvatarFallback>
               </Avatar>
               <Button className="text-white hidden lg:flex dark:text-gray-200 py-2 px-4 items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-secondary dark:bg-primary disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap" onClick={() => signOut()}>
-                Logout <LogOutIcon/>
+                Logout <LogOutIcon />
               </Button>
             </div>
           ) : (
@@ -70,7 +90,6 @@ const Navbar = () => {
           <Link href={"/"} className="bg-primary dark:bg-gray-800 absolute -top-[0px] left-0 sm:w-[200px] w-[120px] sm:h-[200px] h-[120px] p-5 rounded-full">
             <Image
               src="/Images/Logo.png"
-              // src="https://i.postimg.cc/SjsgbyF9/Logo.png"
               alt="Logo"
               layout="fill"
               objectFit="contain"
@@ -79,12 +98,13 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-        <div className="flex items-center justify-end space-x-2 lg:w-[30%] w-[25%]">
-          <div className="relative lg:block hidden">
-            <input type="text" placeholder="Search" className="p-2 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white" />
+        <div ref={containerRef} className={`flex items-center justify-end space-x-2 ${searchAreaShow ? 'absolute lg:w-full' : 'lg:w-[25%]'}`}>
+          <div className="relative lg:block hidden w-full">
+            <input type="text" ref={inputRef} placeholder="Search" onChange={(e) => setSearchQuery(e.target.value)} onFocus={() => setSearchAreaShow(true)} className="p-2 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white w-full" />
             <button className="absolute top-1/2 right-4 -translate-y-1/2 text-black dark:text-white">
               <FaSearch />
             </button>
+            {searchAreaShow && <SearchArea searchQuery={searchQuery}/>}
           </div>
           <ThemeButton />
           <button onClick={openSearch} className="text-black lg:hidden focus:outline-none dark:text-white">
@@ -115,10 +135,14 @@ const Navbar = () => {
               type="text"
               placeholder="Search"
               className="w-full p-4 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white"
+              onFocus={() => setSearchAreaShow(true)}
+              onBlur={() => setSearchAreaShow(false)}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button onClick={closeSearch} className="absolute top-1/2 right-7 -translate-y-1/2 text-black dark:text-white">
               <AiOutlineClose className="w-6 h-6" />
             </button>
+            {searchAreaShow && <SearchArea searchQuery={searchQuery}/>}
           </div>
         </div>
       )}

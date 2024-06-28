@@ -11,6 +11,8 @@ interface Recipe {
   ingredients: Ingredient[];
   instructions: string[];
   type: string;
+  updatedAt: string;
+  popular: string;
 }
 
 interface Ingredient {

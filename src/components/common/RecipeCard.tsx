@@ -1,4 +1,5 @@
 // CardComponent.tsx
+import Link from 'next/link';
 import React from 'react';
 
 interface CardProps {
@@ -6,9 +7,10 @@ interface CardProps {
   category: string;
   title: string;
   description: string;
+  pageid: string;
 }
 
-const RecipeCard: React.FC<CardProps> = ({ imageUrl, category, title, description }) => {
+const RecipeCard: React.FC<CardProps> = ({ imageUrl, category, title, description, pageid }) => {
   return (
     <div className="relative flex bg-clip-border rounded-xl bg-white text-gray-700 shadow-md w-full flex-row">
       <div className="relative w-2/5 m-0 overflow-hidden text-gray-700 bg-white rounded-r-none bg-clip-border rounded-xl shrink-0">
@@ -28,7 +30,7 @@ const RecipeCard: React.FC<CardProps> = ({ imageUrl, category, title, descriptio
         <p className="block mb-8 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
           {description}
         </p>
-        <a href="#" className="inline-block">
+        <Link href={`/recipe/${pageid}`} className="inline-block">
           <button
             className="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900/10 active:bg-gray-900/20"
             type="button"
@@ -49,7 +51,7 @@ const RecipeCard: React.FC<CardProps> = ({ imageUrl, category, title, descriptio
               />
             </svg>
           </button>
-        </a>
+        </Link>
       </div>
     </div>
   );

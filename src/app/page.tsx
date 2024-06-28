@@ -6,6 +6,9 @@ import { LoaderIcon } from 'lucide-react';
 import HeroSection from '@/components/Home/Hero';
 import Recipes from '@/components/common/Recipes';
 import VegRecipes from '@/components/Home/VegRecipes';
+import NonvegRecipes from '@/components/Home/NonvegRecipes';
+import { PopularRecipes } from '@/components/Home/PopularRecipes';
+import CTASection from '@/components/common/CTA';
 
 export default function HomePage() {
   const dispatch = useAppDispatch();
@@ -28,7 +31,10 @@ export default function HomePage() {
   return (
     <>
     <HeroSection/>
+    <PopularRecipes/>
     <VegRecipes/>
+    <NonvegRecipes/>
+    <CTASection/>
     </>
   );
 }

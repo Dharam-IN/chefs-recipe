@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import Recipes from '../common/Recipes'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
@@ -15,7 +16,7 @@ interface Recipe {
   popular: string;
 }
 
-const VegRecipes = () => {
+const NonvegRecipes = () => {
   const dispatch = useAppDispatch();
   const recipes = useAppSelector((state) => state.recipes.recipes) || [];
   const recipeStatus = useAppSelector((state) => state.recipes.loading);
@@ -35,19 +36,17 @@ const VegRecipes = () => {
     return <div className="flex justify-center items-center h-screen">Failed to load recipes.</div>;
   }
 
-  const vegetarianRecipes = recipes.filter((recipe: Recipe) => recipe.type == "vegetarian");
-  const firstFourVegetarianRecipes = vegetarianRecipes.slice(0, 4)
-
-  console.log(vegetarianRecipes)
+  const nonvegetarianRecipes = recipes.filter((recipe: Recipe) => recipe.type == "non-vegetarian");
+  const firstFourVegetarianRecipes = nonvegetarianRecipes.slice(0, 4)
   return (
     <>
-      <section className="bg-gray-100 dark:bg-gray-800 py-10 sm:py-20">
+      <section className="bg-white dark:bg-gray-900 py-10 sm:py-20">
         <div className="mx-auto container px-6 lg:px-8">
-          <Recipes heading={"Veg Recipes"} description={"Explore our collection of delicious vegetarian recipes."} data={firstFourVegetarianRecipes}/>
+          <Recipes heading={"Non Veg Recipes"} description={"Explore our collection of non-vegetarian recipes."} data={firstFourVegetarianRecipes}/>
         </div>
       </section>
     </>
   )
 }
 
-export default VegRecipes
+export default NonvegRecipes
