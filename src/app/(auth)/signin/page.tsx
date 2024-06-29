@@ -19,9 +19,11 @@ import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { InfoIcon, Loader2 } from 'lucide-react'
 import { FaGoogle } from 'react-icons/fa'
+import { useState } from 'react'
 
 const SignIn = () => {
   const { toast } = useToast()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   const form = useForm<z.infer<typeof SigninSchema>>({
     resolver: zodResolver(SigninSchema),
@@ -32,6 +34,7 @@ const SignIn = () => {
   })
 
   const onSubmit = async (data: z.infer<typeof SigninSchema>) => {
+    setIsSubmitting(true)
     try {
       const res = await signIn('credentials', {
         redirect: false,
@@ -39,7 +42,7 @@ const SignIn = () => {
         password: data.password
       })
       console.log(res)
-
+      setIsSubmitting(false)
       if (res?.error) {
         toast({
           title: 'Login failed',
@@ -51,6 +54,7 @@ const SignIn = () => {
       }
     } catch (error) {
       console.log(error)
+      setIsSubmitting(false)
       toast({
         title: 'An error occurred',
         variant: 'destructive'
@@ -95,7 +99,13 @@ const SignIn = () => {
               )}
             />
             <Button type="submit" className="w-full font-bold">
-              Sign In
+              {isSubmitting ? (
+                <>
+                  Wait.. <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                </>
+              ) : (
+                <>Sign In</>
+              )}
             </Button>
           </form>
         </Form>
