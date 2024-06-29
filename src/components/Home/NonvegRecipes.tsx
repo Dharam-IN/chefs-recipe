@@ -29,11 +29,19 @@ const NonvegRecipes = () => {
   }, [dispatch, recipes]);
 
   if (recipeStatus) {
-    return <div className="flex justify-center items-center h-screen"><LoaderIcon className='animate-spin text-9xl'/></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderIcon className="animate-spin text-9xl" />
+      </div>
+    );
   }
 
   if (recipeError) {
-    return <div className="flex justify-center items-center h-screen">Failed to load recipes.</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Failed to load recipes.
+      </div>
+    );
   }
 
   const nonvegetarianRecipes = recipes.filter((recipe: Recipe) => recipe.type == "non-vegetarian");

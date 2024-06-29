@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { FaGithub } from 'react-icons/fa';
 
 const HeroSection: React.FC = () => {
   return (
@@ -31,10 +32,11 @@ const HeroSection: React.FC = () => {
             </svg>
           </Link>
           <Link
-            href="#"
-            className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+            href="https://github.com/Dharam-IN/chefs-recipe"
+            target='_blank'
+            className="inline-flex items-center gap-2 justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
           >
-            Speak to Sales
+            Github <FaGithub/>
           </Link>
         </div>
         <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
@@ -49,3 +51,4 @@ const HeroSection: React.FC = () => {
 };
 
 export default HeroSection;
+

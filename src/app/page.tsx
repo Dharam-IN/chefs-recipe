@@ -10,6 +10,8 @@ import NonvegRecipes from '@/components/Home/NonvegRecipes';
 import { PopularRecipes } from '@/components/Home/PopularRecipes';
 import CTASection from '@/components/common/CTA';
 
+
+
 export default function HomePage() {
   const dispatch = useAppDispatch();
   const recipes = useAppSelector((state) => state.recipes.recipes) || [];
@@ -21,11 +23,19 @@ export default function HomePage() {
   }, [dispatch]);
 
   if (recipeStatus) {
-    return <div><LoaderIcon className='animate-spin text-9xl'/></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderIcon className="animate-spin text-9xl" />
+      </div>
+    );
   }
 
   if (recipeError) {
-    return <div>Failed to load products.</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Failed to load recipes.
+      </div>
+    );
   }
 
   return (

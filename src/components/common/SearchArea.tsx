@@ -53,26 +53,31 @@ const SearchArea = ({searchQuery} : {searchQuery: string}) => {
 
   return (
     <>
-      <div className='absolute lg:p-0 p-5 top-10 left-0 w-full px-10 md:h-[500px] h-[300px] overflow-y-scroll z-50'>
-        <div className='bg-primary dark:bg-primary lg:p-2 p-4'>
+      <div className={`absolute lg:p-0 p-5 top-10 left-0 w-full px-10 ${searchData.length > 3 ? 'h-[300px]' : 'h-fit'} overflow-y-scroll z-50`}>
+        <div className='bg-gray-100 shadow-2xl dark:bg-gray-800 lg:p-2 p-4'>
             {
                 searchData.map((recipe) => {
                     return(
                         <>
-                            <Link href={`/recipe/${recipe._id}`} className='hover:bg-white'>
-                                <div className='flex justify-start gap-3 mb-3'>
-                                    <div className='w-[100px] h-[100px] rounded-md overflow-hidden'>
+                            <Link href={`/recipe/${recipe._id}`}>
+                                <div className='flex justify-start w-full dark:hover:bg-gray-700 hover:bg-gray-200 p-3 gap-3 mb-3'>
+                                    <div className='lg:w-[100px] lg:h-[100px] w-[30%] rounded-md overflow-hidden'>
                                         <img src={recipe.image} className='object-cover w-full h-full' alt="image" />
                                     </div>
-                                    <div>
-                                        <h4>{recipe.title}</h4>
-                                        <p>{recipe.description}</p>
+                                    <div className='w-[70%]'>
+                                        <h4 className='font-bold md:text-[16px] text-[12px]'>{recipe.title}</h4>
+                                        <p className='text-gray-700 md:text-[16px] text-[12px] dark:text-gray-200'>{recipe.description}</p>
                                     </div>
                                 </div>
                             </Link>
                         </>
                     )
                 })
+            }
+            {
+                searchData.length === 0 && (
+                    <div className="px-4 py-2 text-gray-500">No results found.</div>
+                )
             }
         </div>
       </div>

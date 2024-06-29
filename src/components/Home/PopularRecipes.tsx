@@ -40,11 +40,19 @@ export function PopularRecipes() {
   }, [dispatch, recipes]);
 
   if (recipeStatus) {
-    return <div className="flex justify-center items-center h-screen"><LoaderIcon className='animate-spin text-9xl'/></div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <LoaderIcon className="animate-spin text-9xl" />
+      </div>
+    );
   }
 
   if (recipeError) {
-    return <div className="flex justify-center items-center h-screen">Failed to load recipes.</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Failed to load recipes.
+      </div>
+    );
   }
 
   const PopularRecipes = recipes.filter((recipe: Recipe) => recipe.popular === "true");
@@ -53,7 +61,7 @@ export function PopularRecipes() {
   const descLength = 80;
 
   return (
-    <main className="container mx-auto py-20 sm:px-10 px-16">
+    <main className="container mx-auto py-20 sm:px-10 px-5">
       <div className="mx-auto max-w-2xl lg:text-center">
         <p className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
           Popular Recipes You Can't Miss
@@ -76,7 +84,7 @@ export function PopularRecipes() {
                 <CardHeader>
                   <div className="w-full h-[250px]">
                     {/* <Image src={recipe.image} fill={true} alt={recipe.image}/> */}
-                    <img src={recipe.image} alt="image" className="w-full h-full" />
+                    <img src={recipe.image} alt="image" className="w-full h-full object-cover" />
                   </div>
                 </CardHeader>
                   <CardContent className="px-6">

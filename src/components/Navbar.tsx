@@ -31,24 +31,36 @@ const Navbar = () => {
   }
 
   const [searchAreaShow, setSearchAreaShow] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        setSearchAreaShow(false);
-      }
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {value} = event.target;
+    if(value.trim() === ''){
+      setSearchAreaShow(false)
+      setSearchQuery('')
+      return;
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+    setSearchAreaShow(true)
+    setSearchQuery(value)
+
+  }
+
+  const handleOutsideClick = (event: MouseEvent) => {
+    console.log(searchAreaShow)
+    const target = event.target as HTMLElement;
+    console.log(target)
+    if(target.closest('.relative')){
+      setSearchAreaShow(false)
+    }
+  }
+
+
+  useEffect(() => {
+    document.addEventListener('click', handleOutsideClick)
+
+    return () => { document.removeEventListener('click', handleOutsideClick)  }
+
+  }, [])
 
   return (
     <nav className="bg-primary lg:pb-28 lg:pt-7 py-8 dark:bg-gray-800 relative">
@@ -58,7 +70,7 @@ const Navbar = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
-        <div className="flex items-center lg:w-[70%] justify-between w-[25%] font-[600] space-x-4">
+        <div className="flex items-center lg:w-[70%] justify-between w-[10%] font-[600] space-x-4">
           <Link href="/about" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">About</Link>
           <Link href="/chefs" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Chef's</Link>
           <Link href="/diets" className="text-black hidden lg:block dark:text-gray-200 whitespace-nowrap hover:underline">Diets</Link>
@@ -85,9 +97,9 @@ const Navbar = () => {
             </>
           )}
         </div>
-        <div className='flex justify-center w-[50%] lg:hidden'>
+        <div className='flex justify-center w-[80%] lg:hidden'>
         <div className="text-black text-lg font-semibold dark:text-white sm:-top-[50px] -top-[20px] sm:w-[200px] w-[120px] relative">
-          <Link href={"/"} className="bg-primary dark:bg-gray-800 absolute -top-[0px] left-0 sm:w-[200px] w-[120px] sm:h-[200px] h-[120px] p-5 rounded-full">
+          <Link href={"/"} className="bg-primary dark:bg-gray-800 absolute -top-[0px] left-0 lg:w-[200px] w-[120px] lg:h-[200px] h-[120px] p-5 rounded-full">
             <Image
               src="/Images/Logo.png"
               alt="Logo"
@@ -98,9 +110,9 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-        <div ref={containerRef} className={`flex items-center justify-end space-x-2 ${searchAreaShow ? 'absolute lg:w-full' : 'lg:w-[25%]'}`}>
+        <div className={`flex items-center justify-end space-x-2 ${searchAreaShow ? 'lg:absolute lg:w-full' : 'lg:w-[25%]'}`}>
           <div className="relative lg:block hidden w-full">
-            <input type="text" ref={inputRef} placeholder="Search" onChange={(e) => setSearchQuery(e.target.value)} onFocus={() => setSearchAreaShow(true)} className="p-2 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white w-full" />
+            <input type="text" placeholder="Search" onChange={handleInputChange} className="p-2 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white w-full" />
             <button className="absolute top-1/2 right-4 -translate-y-1/2 text-black dark:text-white">
               <FaSearch />
             </button>
@@ -135,9 +147,7 @@ const Navbar = () => {
               type="text"
               placeholder="Search"
               className="w-full p-4 rounded bg-gray-200 text-black dark:bg-gray-700 dark:text-white"
-              onFocus={() => setSearchAreaShow(true)}
-              onBlur={() => setSearchAreaShow(false)}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleInputChange}
             />
             <button onClick={closeSearch} className="absolute top-1/2 right-7 -translate-y-1/2 text-black dark:text-white">
               <AiOutlineClose className="w-6 h-6" />
