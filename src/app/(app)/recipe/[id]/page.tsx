@@ -2,8 +2,8 @@
 import { fetchRecipes } from '@/lib/features/products/recipesSlice'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { LoaderIcon } from 'lucide-react'
-import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import { useParams } from 'next/navigation'
+import React from 'react'
 
 interface RecipePage {
   _id: string
@@ -25,15 +25,14 @@ interface Ingredient {
 }
 
 const Recipe: React.FC = () => {
-  const router = useRouter()
-  const { id } = router.query as { id: string }
+  const params = useParams() as { id: string }
 
   const dispatch = useAppDispatch()
   const recipes = useAppSelector(state => state.recipes.recipes) || []
   const recipeStatus = useAppSelector(state => state.recipes.loading)
   const recipeError = useAppSelector(state => state.recipes.error)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (recipes.length === 0) {
       dispatch(fetchRecipes())
     }
@@ -55,7 +54,10 @@ const Recipe: React.FC = () => {
     )
   }
 
-  const pageRecipe = recipes.find((recipe: RecipePage) => recipe._id === id)
+  const pageRecipe = recipes.find(
+    (recipe: RecipePage) => recipe._id === params.id
+  )
+  console.log(pageRecipe)
 
   let updatedAtDate: Date | null = null
   let dateTimeString = ''
