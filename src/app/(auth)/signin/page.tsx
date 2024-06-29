@@ -47,7 +47,7 @@ const SignIn = () => {
           variant: 'destructive'
         })
       } else {
-        router.push('/profile')
+        router.push('/share-recipe')
       }
     } catch (error) {
       console.log(error)
