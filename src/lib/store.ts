@@ -1,14 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import recipesReducer from './features/products/recipesSlice';
+import { configureStore } from '@reduxjs/toolkit'
+import recipesReducer from './features/products/recipesSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      recipes: recipesReducer,
-    },
-  });
-};
+      recipes: recipesReducer
+    }
+  })
+}
 
-export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch'];
+export type AppStore = ReturnType<typeof makeStore>
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']

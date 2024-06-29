@@ -1,25 +1,29 @@
-import nodemailer from 'nodemailer';
-import VerificationEmail from '../../emails/VerifyEmail';
-import { ApiResponse } from '@/types/ApiResponse';
-import { renderToStaticMarkup } from 'react-dom/server';
+import nodemailer from 'nodemailer'
+import VerificationEmail from '../../emails/VerifyEmail'
+import { ApiResponse } from '@/types/ApiResponse'
+import { renderToStaticMarkup } from 'react-dom/server'
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.NODEMAILER_MAIL,
-      pass: process.env.NODEMAILER_PASSWORD
-    },
-  });
-  
-export  async function sendEmail (email: string, username: string, code: string): Promise<ApiResponse>{
+  service: 'gmail',
+  auth: {
+    user: process.env.NODEMAILER_MAIL,
+    pass: process.env.NODEMAILER_PASSWORD
+  }
+})
+
+export async function sendEmail(
+  email: string,
+  username: string,
+  code: string
+): Promise<ApiResponse> {
   const capitalizeUsername = (username: string) => {
-    return username.charAt(0).toUpperCase() + username.slice(1);
-  };
-    const mailOptions = {
-      from: process.env.NODEMAILER_MAIL,
-      to: email,
-      subject: "Chef's Recipe | Verification Code",
-      html: `<!DOCTYPE html>
+    return username.charAt(0).toUpperCase() + username.slice(1)
+  }
+  const mailOptions = {
+    from: process.env.NODEMAILER_MAIL,
+    to: email,
+    subject: "Chef's Recipe | Verification Code",
+    html: `<!DOCTYPE html>
       <html lang="en">
       <head>
         <meta charset="UTF-8">
@@ -69,17 +73,16 @@ export  async function sendEmail (email: string, username: string, code: string)
       </body>
       </html>
       `
-    };
-  
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent:', info.response);
-      return {success: true, message: "Verification Code Send Successfully!"}
-    } catch (error) {
-      console.error('Error sending email:', error);
-      return {success: false, message: "Error Send Verification Code"}
-    }
-  };
-  
-  export default sendEmail;
-  
+  }
+
+  try {
+    const info = await transporter.sendMail(mailOptions)
+    console.log('Email sent:', info.response)
+    return { success: true, message: 'Verification Code Send Successfully!' }
+  } catch (error) {
+    console.error('Error sending email:', error)
+    return { success: false, message: 'Error Send Verification Code' }
+  }
+}
+
+export default sendEmail

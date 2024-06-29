@@ -1,39 +1,39 @@
 'use client'
 import React, { useEffect } from 'react'
 import Recipes from '../common/Recipes'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { LoaderIcon } from 'lucide-react';
-import { fetchRecipes } from '@/lib/features/products/recipesSlice';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { LoaderIcon } from 'lucide-react'
+import { fetchRecipes } from '@/lib/features/products/recipesSlice'
 
 interface Recipe {
-  _id: string;
-  title: string;
-  description: string;
-  author: string;
-  tags: Array<any>;
-  image: string;
-  type: string;
-  popular: string;
+  _id: string
+  title: string
+  description: string
+  author: string
+  tags: Array<any>
+  image: string
+  type: string
+  popular: string
 }
 
 const NonvegRecipes = () => {
-  const dispatch = useAppDispatch();
-  const recipes = useAppSelector((state) => state.recipes.recipes) || [];
-  const recipeStatus = useAppSelector((state) => state.recipes.loading);
-  const recipeError = useAppSelector((state) => state.recipes.error);
+  const dispatch = useAppDispatch()
+  const recipes = useAppSelector(state => state.recipes.recipes) || []
+  const recipeStatus = useAppSelector(state => state.recipes.loading)
+  const recipeError = useAppSelector(state => state.recipes.error)
 
   useEffect(() => {
     if (recipes.length === 0) {
-      dispatch(fetchRecipes());
+      dispatch(fetchRecipes())
     }
-  }, [dispatch, recipes]);
+  }, [dispatch, recipes])
 
   if (recipeStatus) {
     return (
       <div className="flex justify-center items-center h-screen">
         <LoaderIcon className="animate-spin text-9xl" />
       </div>
-    );
+    )
   }
 
   if (recipeError) {
@@ -41,16 +41,22 @@ const NonvegRecipes = () => {
       <div className="flex justify-center items-center h-screen">
         Failed to load recipes.
       </div>
-    );
+    )
   }
 
-  const nonvegetarianRecipes = recipes.filter((recipe: Recipe) => recipe.type == "non-vegetarian");
+  const nonvegetarianRecipes = recipes.filter(
+    (recipe: Recipe) => recipe.type == 'non-vegetarian'
+  )
   const firstFourVegetarianRecipes = nonvegetarianRecipes.slice(0, 4)
   return (
     <>
       <section className="bg-white dark:bg-gray-900 py-10 sm:py-20">
         <div className="mx-auto container px-6 lg:px-8">
-          <Recipes heading={"Non Veg Recipes"} description={"Explore our collection of non-vegetarian recipes."} data={firstFourVegetarianRecipes}/>
+          <Recipes
+            heading={'Non Veg Recipes'}
+            description={'Explore our collection of non-vegetarian recipes.'}
+            data={firstFourVegetarianRecipes}
+          />
         </div>
       </section>
     </>

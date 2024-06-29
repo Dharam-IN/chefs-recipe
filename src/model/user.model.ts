@@ -67,29 +67,22 @@
 //   UserModel = mongoose.model<User>("User");
 // } catch {
 //   UserModel = mongoose.model<User>("User", UserSchema);
-// } 
+// }
 
 // export default UserModel;
 
-
-
-
-
-
-
-
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose'
 
 export interface User extends Document {
-  username: string;
-  email: string;
-  password: string;
-  restaurant: string;
-  gender: string;
-  usertype: string;
-  verifyCode: string;
-  verifyCodeExpiry: Date;
-  isVerified: boolean;
+  username: string
+  email: string
+  password: string
+  restaurant: string
+  gender: string
+  usertype: string
+  verifyCode: string
+  verifyCodeExpiry: Date
+  isVerified: boolean
 }
 
 const UserSchema: Schema<User> = new Schema(
@@ -98,55 +91,55 @@ const UserSchema: Schema<User> = new Schema(
       type: String,
       // required: [true, "Username is Required"],
       trim: true,
-      unique: true,
+      unique: true
     },
     email: {
       type: String,
       // required: [true, "Email is Required"],
       match: [
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Please Enter Valid Email Address",
+        'Please Enter Valid Email Address'
       ],
       trim: true,
-      unique: true,
+      unique: true
     },
     password: {
-      type: String,
+      type: String
       // required: [true, "Password is Required"],
     },
     restaurant: {
-      type: String,
+      type: String
     },
     gender: {
-      type: String,
+      type: String
       // required: [true, "Please Choose Your Gender"],
     },
     usertype: {
-      type: String,
+      type: String
       // required: [true, "Please Choose Your Type"]
     },
     verifyCode: {
-      type: String,
+      type: String
     },
     verifyCodeExpiry: {
       type: Date,
-      required: [true, "Verify Code Expiry is required"],
-      default: Date.now,
+      required: [true, 'Verify Code Expiry is required'],
+      default: Date.now
     },
     isVerified: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   { timestamps: true }
-);
+)
 
-let UserModel: mongoose.Model<User>;
+let UserModel: mongoose.Model<User>
 
 try {
-  UserModel = mongoose.model<User>("User");
+  UserModel = mongoose.model<User>('User')
 } catch {
-  UserModel = mongoose.model<User>("User", UserSchema);
-} 
+  UserModel = mongoose.model<User>('User', UserSchema)
+}
 
-export default UserModel;
+export default UserModel

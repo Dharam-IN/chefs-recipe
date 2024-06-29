@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import React from 'react';
-import { FaGithub } from 'react-icons/fa';
+import Link from 'next/link'
+import React from 'react'
+import { FaGithub } from 'react-icons/fa'
 
 const HeroSection: React.FC = () => {
   return (
@@ -8,10 +8,20 @@ const HeroSection: React.FC = () => {
       <div className="grid px-4 py-16 container mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
         <div className="mr-auto place-self-center lg:col-span-7">
           <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
-          <span style={{ fontFamily: 'Noto Sans Devanagari, Arial Unicode MS, Arial, sans-serif', color: '#ff7722' }}>नमस्ते</span> Welcome to Chef's Recipe
+            <span
+              style={{
+                fontFamily:
+                  'Noto Sans Devanagari, Arial Unicode MS, Arial, sans-serif',
+                color: '#ff7722'
+              }}
+            >
+              नमस्ते
+            </span>{' '}
+            Welcome to Chef&apos;s Recipe
           </h1>
           <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-          Explore and share your favorite recipes with our community of chefs and cooking enthusiasts.
+            Explore and share your favorite recipes with our community of chefs
+            and cooking enthusiasts.
           </p>
           <Link
             href="/about"
@@ -33,22 +43,18 @@ const HeroSection: React.FC = () => {
           </Link>
           <Link
             href="https://github.com/Dharam-IN/chefs-recipe"
-            target='_blank'
+            target="_blank"
             className="inline-flex items-center gap-2 justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
           >
-            Github <FaGithub/>
+            Github <FaGithub />
           </Link>
         </div>
         <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-          <img
-            src="/Images/HeroChefIMG.png"
-            alt="mockup"
-          />
+          <img src="/Images/HeroChefIMG.png" alt="mockup" />
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HeroSection;
-
+export default HeroSection

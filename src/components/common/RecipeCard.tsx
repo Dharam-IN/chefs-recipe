@@ -1,16 +1,22 @@
 // CardComponent.tsx
-import Link from 'next/link';
-import React from 'react';
+import Link from 'next/link'
+import React from 'react'
 
 interface CardProps {
-  imageUrl: string;
-  category: string;
-  title: string;
-  description: string;
-  pageid: string;
+  imageUrl: string
+  category: string
+  title: string
+  description: string
+  pageid: string
 }
 
-const RecipeCard: React.FC<CardProps> = ({ imageUrl, category, title, description, pageid }) => {
+const RecipeCard: React.FC<CardProps> = ({
+  imageUrl,
+  category,
+  title,
+  description,
+  pageid
+}) => {
   return (
     <div className="relative flex bg-clip-border rounded-xl bg-white text-gray-700 shadow-md w-full flex-row">
       <div className="relative w-2/5 m-0 overflow-hidden text-gray-700 bg-white rounded-r-none bg-clip-border rounded-xl shrink-0">
@@ -54,7 +60,7 @@ const RecipeCard: React.FC<CardProps> = ({ imageUrl, category, title, descriptio
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RecipeCard;
+export default RecipeCard
